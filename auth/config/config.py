@@ -9,10 +9,10 @@ class Settings(BaseSettings):
     secret_key: str
     algorithm: str
     access_token_expire_minute: int
-    redis_host: str
-    redis_port: str
-    redis_password: str
-    
+    # redis_host: str
+    # redis_port: str
+    # redis_password: str
+    redis_url: str
     class Config:
         env_file = ".env"
         
