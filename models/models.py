@@ -37,8 +37,8 @@ class Vehicle(Base):
     horsepower = Column(Integer, nullable=False)
     peakrpm = Column(Integer, nullable=False)
     citympg = Column(Integer, nullable=False)
-    highwaympg = Column(Integer, nullable=False)
-    price = Column(Float, nullable=True)
+    highwaympg = Column(Integer, nullable=True)
+    price = Column(Float, nullable=False)
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     
     # Define the relationship back to User

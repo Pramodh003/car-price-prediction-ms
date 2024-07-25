@@ -2,6 +2,12 @@ from pydantic import BaseModel, EmailStr
 from typing import Optional
 from pydantic import BaseModel
 
+
+class User(BaseModel):
+    email: EmailStr
+    password: str
+    
+    
 class ItemBase(BaseModel):
     symboling: int
     CarName: str
@@ -27,6 +33,7 @@ class ItemBase(BaseModel):
     peakrpm: int
     citympg: int
     highwaympg: int
+    price: Optional[float] = None
 
 
 class ItemCreate(ItemBase):
@@ -51,9 +58,7 @@ class Item(ItemBase):
     class Config:
         orm_mode = True
 
-class User(BaseModel):
-    email: EmailStr
-    password: str
+
     
 class UserCreate(User):
     pass
