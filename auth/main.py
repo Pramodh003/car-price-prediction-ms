@@ -1,11 +1,11 @@
-from .schemas import UserCreate
+from auth.schemas import UserCreate
 import uvicorn
-from .models import User
-from .database import Base, engine, SessionLocal,get_db
+from auth.models import User
+from auth.database import Base, engine, SessionLocal,get_db
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from .utils import hash, verify
-from .oauth2 import create_access_token, verify_access_token, get_current_user
+from auth.utils import hash, verify
+from auth.oauth2 import create_access_token, verify_access_token, get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
 
 Base.metadata.create_all(engine)

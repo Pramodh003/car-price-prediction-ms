@@ -1,2 +1,4 @@
-.env
-venv/
+auth/.env
+auth/venv/
+models/.env
+predict/.env
