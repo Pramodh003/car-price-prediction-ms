@@ -1,0 +1,52 @@
+services:
+  auth:
+    image: pramod003/carprice-predictor-auth:1.0.0
+    hostname: auth
+    container_name: auth
+    restart: always
+    ports:
+      - "8000:8000"
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'  
+          memory: 215M  
+        reservations:
+          cpus: '0.25'  
+          memory: 215M  
+    networks:
+      - carprice-predictor
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+  model:
+    image: pramod003/carprice-predictor-model:1.0.0
+    hostname: model
+    container_name: model
+    restart: always
+    ports:
+      - "8001:8001"
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'  
+          memory: 215M  
+        reservations:
+          cpus: '0.25'  
+          memory: 215M  
+    networks:
+      - carprice-predictor
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/docs"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
