@@ -2,7 +2,7 @@ FROM python:3.9-slim
 RUN useradd -ms /bin/bash pramodh
 WORKDIR /home/pramodh
 COPY requirements.txt /home/pramodh/
-COPY . /home/pramodh/
+COPY models /home/pramodh/
 RUN pip install --no-cache-dir -r /home/pramodh/requirements.txt
 RUN chown -R pramodh:pramodh /home/pramodh/
 USER pramodh
