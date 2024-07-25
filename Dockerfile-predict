@@ -1,8 +1,12 @@
 FROM python:3.9-slim
+RUN apt-get update && \
+    apt-get install -y \
+    build-essential \
+    libpq-dev
 RUN useradd -ms /bin/bash pramodh
 WORKDIR /home/pramodh
-COPY requirements.txt /home/pramodh/
-COPY predict /home/pramodh/
+COPY predict/ /home/pramodh/
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r /home/pramodh/requirements.txt
 RUN chown -R pramodh:pramodh /home/pramodh/
 USER pramodh

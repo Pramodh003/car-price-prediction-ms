@@ -3,7 +3,7 @@ version: '3.8'
 services:
   auth:
     build:
-      context: Dockerfile-auth
+      context: .
       dockerfile: Dockerfile-auth
     image: pramod003/carprice-predictor-auth:1.0.0
     hostname: auth
@@ -32,7 +32,7 @@ services:
 
   predict:
     build:
-      context: Dockerfile-predict
+      context: .
       dockerfile: Dockerfile-predict
     image: pramod003/carprice-predictor-predict:1.0.0
     hostname: predict
@@ -53,7 +53,7 @@ services:
 
   model:
     build:
-      context: Dockerfile-models
+      context: .
       dockerfile: Dockerfile-models
     image: pramod003/carprice-predictor-model:1.0.0
     hostname: model
