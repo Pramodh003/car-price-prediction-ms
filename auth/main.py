@@ -1,4 +1,4 @@
-from auth.schemas import UserCreate
+from .schemas import UserCreate
 import uvicorn
 from auth.models import User
 from auth.database import Base, engine, SessionLocal,get_db

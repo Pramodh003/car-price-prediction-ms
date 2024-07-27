@@ -2,3 +2,4 @@ auth/.env
 auth/venv/
 models/.env
 predict/.env
+venv
