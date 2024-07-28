@@ -7,7 +7,7 @@ from sklearn import preprocessing
 import pickle
 from predict import models
 from dotenv import load_dotenv
-load_dotenv("models\.env")
+load_dotenv(".env")
 import os
 RABBITMQ_USER = os.getenv('RABBITMQ_USER')
 RABBITMQ_PASSWORD = os.getenv('RABBITMQ_PASSWORD')
