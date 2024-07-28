@@ -46,9 +46,6 @@ services:
       - carprice-predictor
 
   model:
-    build:
-      context: .
-      dockerfile: Dockerfile-models
     image: pramod003/car-price-ms:1.0.0-models
     hostname: model
     container_name: model
@@ -67,8 +64,8 @@ services:
           memory: 215M
     networks:
       - carprice-predictor
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8001/docs"]
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:8001/docs"]
       interval: 1m30s
       timeout: 30s
       retries: 5
