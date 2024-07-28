@@ -16,7 +16,7 @@ RABBITMQ_HOST = os.getenv('RABBITMQ_HOST')
 label_encoder = preprocessing.LabelEncoder()
 
 
-predict_model = pickle.load(open('predict\model.pkl','rb'))
+predict_model = pickle.load(open('model.pkl','rb'))
     
 def process_vehicle_id(vehicle_id: int, db: Session):
     vehicle = db.query(models.Vehicle).filter(models.Vehicle.id == vehicle_id).first()
