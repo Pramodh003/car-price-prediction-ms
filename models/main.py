@@ -33,7 +33,7 @@ async def login(user_data: schemas.User):
 @app.post("/register", tags=['Authentication Service'])
 async def registeration(user_data: schemas.UserCreate):
     try:
-        response = requests.post(f"{AUTH_BASE_URL}/api/users", json={"email": user_data.email, "password": user_data.password})
+        response = requests.post(f"{AUTH_BASE_URL}/register", json={"email": user_data.email, "password": user_data.password})
         if response.status_code == 200:
             return response.json()
         else:
