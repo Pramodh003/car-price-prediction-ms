@@ -2,7 +2,7 @@ from fastapi.security import OAuth2PasswordBearer
 from fastapi import HTTPException,status, Depends
 import os 
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv('.env')
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError , jwt
 from . import schemas

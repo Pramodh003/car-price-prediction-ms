@@ -1,7 +1,7 @@
 import pika
 import os
 from dotenv import load_dotenv
-load_dotenv("models\.env")
+load_dotenv(".env")
 
 RABBITMQ_USER = os.getenv('RABBITMQ_USER')
 RABBITMQ_PASSWORD = os.getenv('RABBITMQ_PASSWORD')

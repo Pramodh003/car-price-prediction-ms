@@ -13,7 +13,7 @@ import uvicorn
 from models.rpc import get_rabbitmq_connection
 
 app = FastAPI()
-load_dotenv("models\.env")
+load_dotenv(".env")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 RABBITMQ_URL = os.getenv("RABBITMQ_URL")
 AUTH_BASE_URL = os.getenv("AUTH_BASE_URL")
@@ -22,7 +22,7 @@ AUTH_BASE_URL = os.getenv("AUTH_BASE_URL")
 @app.post("/login", tags=['Authentication Service'])
 async def login(user_data: schemas.User):
     try:
-        response = requests.post(f"{AUTH_BASE_URL}/api/token", json={"username": user_data.username, "password": user_data.password})
+        response = requests.post(f"{AUTH_BASE_URL}/login", json={"username": user_data.username, "password": user_data.password})
         if response.status_code == 200:
             return response.json()
         else:
