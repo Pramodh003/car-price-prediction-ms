@@ -3,10 +3,9 @@ RUN apt-get update && \
     apt-get install -y \
     build-essential \
     libpq-dev
-WORKDIR /auth
-COPY /auth/* /auth
+WORKDIR /predict
+COPY . .
 RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r /auth/requirements.txt
-EXPOSE 8000
-CMD ["uvicorn", "auth.main:app", "--host", "0.0.0.0", "--port", "8000"]
+RUN pip install --no-cache-dir -r requirements.txt
+CMD ["python", "-m", "predict.consumer"]
 
