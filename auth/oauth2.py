@@ -6,6 +6,8 @@ from auth import database, schemas, models
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
 import os 
+
+load_dotenv(".env")
 SECRET_KEY = os.getenv('SECRET_KEY')
 ALGORITHM = os.getenv('ALGORITHM')
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
