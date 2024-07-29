@@ -1,0 +1,1 @@
+myapp_secrets_role_arn = "arn:aws:iam::767398056657:role/microservice-myapp-secrets"

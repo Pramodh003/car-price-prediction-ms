@@ -4,3 +4,6 @@ models/.env
 predict/.env
 venv
 .env
+.terraform
+.terraform.lock.hcl
+terraform.tfstate

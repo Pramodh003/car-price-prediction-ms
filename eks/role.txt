@@ -1,0 +1,1 @@
+arn:aws:iam::767398056657:role/myeks-myapp-secrets
