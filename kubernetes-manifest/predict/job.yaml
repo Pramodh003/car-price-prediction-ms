@@ -1,0 +1,27 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledJob
+metadata:
+  name:  predict
+  namespace:  ms
+spec:
+  pollingInterval: 1 
+  maxReplicaCount:  1
+  successfulJobsHistoryLimit: 2 
+  failedJobsHistoryLimit: 1 
+  jobTargetRef:
+    backoffLimit:  1
+    template:
+      spec:
+        containers:
+        - name:  predict
+          image: pramod003/car-price-ms:1.0.0-predict
+  rollout:
+    strategy: default
+    propagationPolicy: foreground
+  triggers:
+  - type: rabbitmq
+    metadata:
+      queueName:  'vehicle_queue'
+      queueLength:  '1'
+    authenticationRef:
+        name: predict

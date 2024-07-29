@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: models
+  namespace: ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: models
+  template:
+    metadata:
+      labels:
+        app: models
+    spec:
+      containers:
+        - name: models
+          image: pramod003/car-price-ms:1.0.0-models
+          ports:
+            - name: http
+              containerPort: 8001
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 128Mi
+              cpu: 100m

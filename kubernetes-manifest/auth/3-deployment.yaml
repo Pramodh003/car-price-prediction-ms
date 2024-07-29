@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+  namespace: ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      serviceAccountName: auth
+      containers:
+        - name: myapp
+          image: pramod003/car-price-ms:1.0.0-auth
+          ports:
+            - containerPort: 8000
