@@ -20,12 +20,6 @@ services:
           memory: 215M
     networks:
       - carprice-predictor
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
-      interval: 1m30s
-      timeout: 30s
-      retries: 5
-      start_period: 30s
 
   predict:
     image: pramod003/car-price-ms:1.0.0-predict
@@ -64,16 +58,10 @@ services:
           memory: 215M
     networks:
       - carprice-predictor
-#    healthcheck:
-#      test: ["CMD", "curl", "-f", "http://localhost:8001/docs"]
-      interval: 1m30s
-      timeout: 30s
-      retries: 5
-      start_period: 30s
     depends_on:
-      auth:
-        condition: service_healthy
+     - auth
 
 networks:
   carprice-predictor:
     driver: bridge
+
