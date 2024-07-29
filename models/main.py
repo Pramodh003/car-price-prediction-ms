@@ -1,8 +1,8 @@
 from fastapi import Depends , Response, APIRouter , HTTPException, status,FastAPI
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer
-from . import models
-from .database import get_db
+from models import models
+from models.database import get_db
 from . import models,schemas, oauth2
 from typing import List, Optional
 import pika
@@ -13,16 +13,17 @@ import uvicorn
 from models.rpc import get_rabbitmq_connection
 
 app = FastAPI()
-load_dotenv(".env")
+load_dotenv("models\.env")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 RABBITMQ_URL = os.getenv("RABBITMQ_URL")
 AUTH_BASE_URL = os.getenv("AUTH_BASE_URL")
 
 
-@app.post("/login", tags=['Authentication Service'])
-async def login(user_data: schemas.User):
+@app.post("/token", tags=['Authentication Service'])
+async def login(user_data: schemas.Login = Depends()):
     try:
-        response = requests.post(f"{AUTH_BASE_URL}/login", json={"username": user_data.username, "password": user_data.password})
+        response = requests.post(f"{AUTH_BASE_URL}/login", 
+                                 data={"username": user_data.username, "password": user_data.password})
         if response.status_code == 200:
             return response.json()
         else:
@@ -30,7 +31,7 @@ async def login(user_data: schemas.User):
     except requests.exceptions.ConnectionError:
         raise HTTPException(status_code=503, detail="Authentication service is unavailable")
 
-@app.post("/register", tags=['Authentication Service'])
+@app.post("/user", tags=['Authentication Service'])
 async def registeration(user_data: schemas.UserCreate):
     try:
         response = requests.post(f"{AUTH_BASE_URL}/register", json={"email": user_data.email, "password": user_data.password})
