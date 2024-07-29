@@ -1,8 +1,21 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 from pydantic import BaseModel
+from fastapi import Form, Query, Body
 
 
+class Login:
+    def __init__(
+        self,
+        username: EmailStr = Form(..., description="Registered Email ID"),
+        password: str = Form(..., description="Password"),
+    ):
+        self.username = username
+        self.password = password
+        
+# class Login:
+#     username: EmailStr = Form(...,description="Registered Email ID")
+#     password: str = Form(...,description="Password")
 class User(BaseModel):
     username: str
     password: str
@@ -50,7 +63,8 @@ class UserOut(BaseModel):
     
     class Config:
         orm_mode = True    
-    
+   
+ 
 class Item(ItemBase):
     id: str
     owner_id: int
@@ -59,8 +73,10 @@ class Item(ItemBase):
         orm_mode = True
 
 
-    
-class UserCreate(User):
+class UserIn(BaseModel):
+    email: EmailStr
+    password: str
+class UserCreate(UserIn):
     pass
     class Config:
         orm_mode=True
