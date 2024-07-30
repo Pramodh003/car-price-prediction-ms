@@ -1,1 +1,13 @@
+name: Build docker image
 
+on:
+  push:
+    branches:
+      - auth
+
+jobs:
+  build:
+    uses: pramodh003/car-price-prediction-ms/.github/workflows/main.yml@auth
+    with:
+      branch_name: ${{ github.ref_name }}
+    secrets: inherit
