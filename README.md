@@ -5,8 +5,8 @@ Microservice Architecture
 #### I have created simple machine learning models which is used to predict the car price.
 #### In this there are 2 microservice and one job
 ##### 1.Gateway
-##### 2.auth
-##### 3.predict
+##### 2.Auth
+##### 3.Predict
 
 #### In Gateway it will route the login request to auth microservice and we also upload the data to database and this data id is sent to rabbitq and this consumer job take this Id , fetch the respective data using that id and then give prediction also update the predicted price in database
 
