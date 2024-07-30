@@ -13,3 +13,5 @@ Microservice Architecture
 #### Terraform script is used for creating eks cluster & nodes in private subnets which also includes setting up loadbalancer & Letsecrypt for ssl.
 
 #### Used kubernetes manifest for deployment different microservice. It also includes pub/sub arch and for that I have used keda jobs for scaling  & for microservices I have used HPA for scaling jobs
+
+#### Created a Reusable github actions for CI/CD 
