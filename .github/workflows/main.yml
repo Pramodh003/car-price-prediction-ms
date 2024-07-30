@@ -38,15 +38,14 @@ jobs:
           push: true
           tags: "${{ secrets.DOCKER_USER }}/car-price-ms:1.0.0-${{ env.BRANCH_NAME }}"
       
-      - name: Scan Image
-        uses: anchore/scan-action@v3
-        id: scan
+      - name: Dockerhub and versioning
+        id: step5
+        uses: docker/scout-action@v0.18.1
         with:
+          command: cves
           image: "${{ secrets.DOCKER_USER }}/car-price-ms:1.0.0-${{ env.BRANCH_NAME }}"
-          fail-build: true
-          output-format: sarif
-
-      - name: Upload Anchore Scan SARIF Report
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: ${{ steps.scan.outputs.sarif }}
+          ignore-unchanged: true
+          write-comment: true
+          sarif-file: sarif.output.json
+          summary: true
+          github-token: ${{ secrets.PAT_TOKEN }}
