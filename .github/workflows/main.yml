@@ -1,11 +1,16 @@
 name: Docker
 
 on:
-  workflow_call
+  workflow_call:
+    inputs:
+      branch_name:
+        type: string
+        required: true
+  
   
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: ${{ github.repository }}
+  BRANCH_NAME: ${{ inputs.branch_name }}
 
 jobs:
   build:
@@ -33,13 +38,13 @@ jobs:
         with:
           context: .
           push: true
-          tags: "${{ secrets.DOCKER_USER }}/car-price-ms:1.0.0-${{ env.BRANCH_NAME }}"
+          tags: "${{ secrets.DOCKER_USER }}/car-price-ms:1.0.0-${env.BRANCH_NAME}"
       
       - name: Scan Image
         uses: anchore/scan-action@v3
         id: scan
         with:
-          image: "${{ secrets.DOCKER_USER }}/car-price-ms:1.0.0-${{ env.BRANCH_NAME }}"
+          image: "${{ secrets.DOCKER_USER }}/car-price-ms:1.0.0-${env.BRANCH_NAME}"
           fail-build: true
           output-format: sarif
 
