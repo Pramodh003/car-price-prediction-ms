@@ -6,4 +6,6 @@ venv
 .env
 .terraform
 .terraform.lock.hcl
+eks/terraform.tfstate
+eks/terraform.tfstate.backup
 terraform.tfstate
