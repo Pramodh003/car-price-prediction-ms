@@ -9,7 +9,7 @@ from auth.oauth2 import create_access_token, verify_access_token, get_current_us
 from fastapi.security import OAuth2PasswordRequestForm
 from auth.redis import red
 Base.metadata.create_all(engine)
-from auth.redis import redis_client
+# from auth.redis import redis_client
 
 app = FastAPI()
 
@@ -34,14 +34,7 @@ async def login(user_credentials: OAuth2PasswordRequestForm =  Depends(), db: Se
     if not verify:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail = f"Invalid credentials")
     access_token = create_access_token(data= {"user_id": user.id})
-    redis_client.set(access_token,user.id)
     return {"access_token": access_token, "token_type":"bearer"}
-
-@app.post("/logout")
-def logout(token: str = Depends(oauth2_scheme)):
-    print(token)
-    redis_client.delete(token[0])
-    return {"msg": "Logout successful"}
 
 if __name__=="__main__":
      uvicorn.run("main:app", host="0.0.0.0", port=8000)
