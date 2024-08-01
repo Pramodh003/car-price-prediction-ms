@@ -4,6 +4,8 @@ kind: Service
 metadata:
   name: auth
   namespace: ms
+  labels:
+    app: auth 
 spec:
   type: ClusterIP
   ports:

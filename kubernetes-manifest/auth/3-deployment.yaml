@@ -4,6 +4,8 @@ kind: Deployment
 metadata:
   name: auth
   namespace: ms
+  labels:
+    app: auth
 spec:
   replicas: 1
   selector:
@@ -16,7 +18,54 @@ spec:
     spec:
       serviceAccountName: auth
       containers:
-        - name: myapp
-          image: pramod003/car-price-ms:1.0.0-auth
+        - name: auth
+          image: pramod003/car-price-ms:3.0.0-auth
           ports:
             - containerPort: 8000
+          volumeMounts:
+            - name: secrets
+              mountPath: /mnt/secrets
+              readOnly: true
+          env:
+            - name: DATABASE_HOSTNAME
+              valueFrom:
+                secretKeyRef:
+                  name: auth
+                  key: DATABASE_HOSTNAME
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: auth
+                  key: DATABASE_USERNAME
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: auth
+                  key: DATABASE_PASSWORD
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: auth
+                  key: DATABASE_NAME
+            - name: DATABASE_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: auth
+                  key: DATABASE_PORT
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: auth
+                  key: SECRET_KEY
+            - name: ALGORITHM
+              valueFrom:
+                secretKeyRef:
+                  name: auth
+                  key: ALGORITHM
+      volumes:
+        - name: secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: auth
