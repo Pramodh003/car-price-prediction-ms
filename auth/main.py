@@ -7,7 +7,6 @@ from sqlalchemy.orm import Session
 from auth.utils import hash, verify
 from auth.oauth2 import create_access_token, verify_access_token, get_current_user,oauth2_scheme
 from fastapi.security import OAuth2PasswordRequestForm
-from auth.redis import red
 Base.metadata.create_all(engine)
 # from auth.redis import redis_client
 
