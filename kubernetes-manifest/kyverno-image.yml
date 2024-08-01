@@ -1,0 +1,18 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-image-registry
+spec:
+  rules:
+  - name: validate-image-registry
+    match:
+      resources:
+        kinds:
+        - Pod
+    validate:
+      message: "Only images from the 'pramod003' registry are allowed."
+      pattern:
+        spec:
+          containers:
+          - image: "pramod003/*"
+  background: false
