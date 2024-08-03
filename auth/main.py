@@ -2,7 +2,7 @@ from .schemas import UserCreate
 import uvicorn
 from auth.models import User
 from auth.database import Base, engine, SessionLocal,get_db
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, Response
 from sqlalchemy.orm import Session
 from auth.utils import hash, verify
 from auth.oauth2 import create_access_token, verify_access_token, get_current_user,oauth2_scheme
@@ -25,7 +25,7 @@ async def register_user(user: UserCreate,db: Session = Depends(get_db)):
     return {"message": "User created successfully"}
     
 @app.post("/login")   
-async def login(user_credentials: OAuth2PasswordRequestForm =  Depends(), db: Session = Depends(get_db)):
+async def login(response: Response,user_credentials: OAuth2PasswordRequestForm =  Depends(), db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == user_credentials.username).first()
     print(user)
     if not user:
@@ -33,7 +33,13 @@ async def login(user_credentials: OAuth2PasswordRequestForm =  Depends(), db: Se
     if not verify:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail = f"Invalid credentials")
     access_token = create_access_token(data= {"user_id": user.id})
-    return {"access_token": access_token, "token_type":"bearer"}
+    response.set_cookie(key="Authorization", value=f"Bearer {access_token}", httponly=True)
+    return {"message": f"Login successfully, This is the access_token: {access_token}"}
+
+@app.post("/logout")
+def logout(response: Response):
+    response.delete_cookie(key="Authorization")
+    return {"msg": "Logout successful"}
 
 if __name__=="__main__":
      uvicorn.run("main:app", host="0.0.0.0", port=8000)

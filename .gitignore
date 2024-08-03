@@ -1,2 +1,7 @@
 venv
 .env
+auth/__pycache__
+eks/.terraform
+eks/.terraform.lock.hcl
+eks/terraform.state
+eks/terraform
