@@ -13,16 +13,50 @@ spec:
       labels:
         app: models
     spec:
+      securityContext:
+        runAsUser: 1000
+      serviceAccountName: models
       containers:
         - name: models
-          image: pramod003/car-price-ms:1.0.0-models
+          image: pramod003/car-price-ms:5.0.0-models
           ports:
             - name: http
               containerPort: 8001
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - CAP_NET_BIND_SERVICE
+                - CAP_SYS_TIME
+                - CAP_DAC_OVERRIDE
           resources:
             requests:
-              memory: 128Mi
-              cpu: 100m
+              memory: "100Mi"
+              cpu: "100m"
             limits:
-              memory: 128Mi
-              cpu: 100m
+              memory: "200Mi"
+          livenessProbe:
+            httpGet:
+              path: /docs
+              port: 8001
+            initialDelaySeconds: 3
+            failureThreshold: 6
+            periodSeconds: 9
+          readinessProbe:
+            httpGet:
+              path: /docs
+              port: 8001
+            initialDelaySeconds: 3
+            failureThreshold: 9
+            periodSeconds: 6
+          startupProbe:
+            httpGet:
+              path: /docs
+              port: 8001
+            initialDelaySeconds: 3
+            failureThreshold: 6
+            periodSeconds: 9
