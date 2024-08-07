@@ -15,3 +15,9 @@ Microservice Architecture
 #### Used kubernetes manifest for deployment different microservice. It also includes pub/sub arch and for that I have used keda jobs for scaling  & for microservices I have used HPA for scaling jobs
 
 #### Created a Reusable github actions for CI/CD 
+
+
+#### Inject vault secrets to deployment
+##### Link: https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-external-vault#configure-kubernetes-authentication
+
+#### helm upgrade --install vault hashicorp/vault --set "global.externalVaultAddr=URL" --set "logLevel=debug"
