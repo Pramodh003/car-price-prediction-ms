@@ -18,6 +18,6 @@ Microservice Architecture
 
 
 ####Inject vault secrets to deployment
-#####Link: https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-external-vault#configure-kubernetes-authentication
+####Link: https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-external-vault#configure-kubernetes-authentication
 
 ####helm upgrade --install vault hashicorp/vault --set "global.externalVaultAddr=URL" --set "logLevel=debug"
