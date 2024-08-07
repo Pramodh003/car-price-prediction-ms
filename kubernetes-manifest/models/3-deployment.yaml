@@ -3,6 +3,15 @@ kind: Deployment
 metadata:
   name: models
   namespace: ms
+  annotations:
+    vault.hashicorp.com/agent-inject: "true"
+    vault.hashicorp.com/agent-inject-secret-.env: "kv/projects/bike-price-prediction"
+    vault.hashicorp.com/role: "test"
+    vault.hashicorp.com/agent-pre-populate-only: "true"
+    vault.hashicorp.com/agent-inject-template-.env: |
+      {{ with secret "kv/projects/bike-price-prediction" -}}
+        {{ .Data.data.models }}
+      {{- end }}
 spec:
   replicas: 1
   selector:
@@ -12,13 +21,14 @@ spec:
     metadata:
       labels:
         app: models
+        istio: monitor
     spec:
       securityContext:
         runAsUser: 1000
       serviceAccountName: models
       containers:
         - name: models
-          image: pramod003/car-price-ms:5.0.0-models
+          image: pramod003/car-price-ms:1.0.1-models
           ports:
             - name: http
               containerPort: 8001

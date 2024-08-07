@@ -14,7 +14,7 @@ spec:
       spec:
         containers:
         - name:  predict
-          image: pramod003/car-price-ms:1.0.0-predict
+          image: pramod003/car-price-ms:5.0.0-predict
   rollout:
     strategy: default
     propagationPolicy: foreground
