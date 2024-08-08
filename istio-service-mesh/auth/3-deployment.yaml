@@ -3,6 +3,15 @@ kind: Deployment
 metadata:
   name: auth
   namespace: ms
+  annotations:
+    vault.hashicorp.com/agent-inject: "true"
+    vault.hashicorp.com/agent-inject-secret-.env: "kv/projects/bike-price-prediction"
+    vault.hashicorp.com/role: "test"
+    vault.hashicorp.com/agent-pre-populate-only: "true"
+    vault.hashicorp.com/agent-inject-template-.env: |
+      {{ with secret "kv/projects/bike-price-prediction" -}}
+        {{ .Data.data.auth }}
+      {{- end }}
 spec:
   replicas: 1
   selector:
@@ -12,39 +21,30 @@ spec:
     metadata:
       labels:
         app: auth
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/agent-inject-secret-.env: "kv/projects/bike-price-prediction"
-        vault.hashicorp.com/agent-inject-template-.env: |
-          {{- with secret "kv/projects/bike-price-prediction" -}}
-            {{ .Data.data.auth }}
-          {{- end }}
-        vault.hashicorp.com/secret-volume-path: /vault/secrets
-        vault.hashicorp.com/log-level: "debug"
-        vault.hashicorp.com/role: "microservice"
     spec:
+      securityContext:
+        runAsUser: 1000
       serviceAccountName: auth
       containers:
         - name: auth
-          image: pramod003/car-price-ms:1.0.2-auth
-          command: ["sh", "-c", "mv /vault/secrets/.env /app/.env && uvicorn auth.main:app --host 0.0.0.0 --port 8000"]
+          image: pramod003/car-price-ms:1.0.1-auth
           ports:
             - name: http
               containerPort: 8000
-          # securityContext:
-          #   allowPrivilegeEscalation: false
-          #   runAsNonRoot: true
-          #   readOnlyRootFilesystem: true
-          #   capabilities:
-          #     drop:
-          #       - ALL
-          #     add:
-          #       - CAP_NET_BIND_SERVICE
-          #       - CAP_SYS_TIME
-          #       - CAP_DAC_OVERRIDE
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - CAP_NET_BIND_SERVICE
+                - CAP_SYS_TIME
+                - CAP_DAC_OVERRIDE
           resources:
             requests:
-              memory: "00Mi"
+              memory: "100Mi"
               cpu: "100m"
             limits:
               memory: "200Mi"

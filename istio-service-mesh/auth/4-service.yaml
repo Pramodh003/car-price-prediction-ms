@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth
+  namespace: ms
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      targetPort: http
+  selector:
+    app: auth

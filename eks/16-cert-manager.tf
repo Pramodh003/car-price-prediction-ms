@@ -12,5 +12,5 @@ resource "helm_release" "cert_manager" {
     value = "true"
   }
 
-  depends_on = [helm_release.external_nginx]
+  depends_on = [helm_release.aws_lbc]
 }

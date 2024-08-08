@@ -1,0 +1,10 @@
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: predict
+  namespace: ms
+spec:
+  secretTargetRef: 
+  - parameter: host
+    name: keda-rabbitmq-secret
+    key: RABBITMQ_URL
