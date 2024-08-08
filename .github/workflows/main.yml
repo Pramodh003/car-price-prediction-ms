@@ -43,7 +43,7 @@ jobs:
         uses: docker/scout-action@v0.18.1
         with:
           command: cves
-          image: "${{ secrets.DOCKER_USER }}/car-price-ms:1.0.1-${{ env.BRANCH_NAME }}"
+          image: "${{ secrets.DOCKER_USER }}/car-price-ms:1.0.2-${{ env.BRANCH_NAME }}"
           ignore-unchanged: true
           write-comment: true
           sarif-file: sarif.output.json
